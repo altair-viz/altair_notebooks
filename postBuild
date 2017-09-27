@@ -1,3 +1,3 @@
 #!/bin/bash
 
-jupyter nbextension --sys-prefix --py vega
+jupyter nbextension install --sys-prefix --py vega
