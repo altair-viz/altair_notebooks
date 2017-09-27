@@ -1,0 +1,5 @@
+traitlets>=4.3.1
+ipython
+pandas
+vega==0.4.4
+git+https://github.com/altair-viz/altair.git

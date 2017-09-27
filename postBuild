@@ -1,0 +1,3 @@
+#!/bin/bash
+
+jupyter nbextension --sys-prefix --py vega
