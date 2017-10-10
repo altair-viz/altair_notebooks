@@ -90,7 +90,7 @@ def create_example_notebook(filename, spec, notebook_directory,
         yield new_markdown_cell('## Define Altair Specification')
         yield new_code_cell(''.join(['from altair import *  # Import the altair API\n\n',
                             'chart = {0}\n\n'.format(chart.to_altair(data='data')),
-                            'chart.max_rows = len(data)']))
+                            'chart.max_rows = len(data)  # Altair 1.2.1 has a max_rows of 500 by default']))
         yield new_markdown_cell('IPython rich display will invoke Vega-Lite:')
         yield new_code_cell('chart')
 
