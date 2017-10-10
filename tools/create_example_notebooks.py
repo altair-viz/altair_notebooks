@@ -77,7 +77,7 @@ def create_example_notebook(filename, spec, notebook_directory,
                                 '# Altair Example: {2}\n\n'
                                 '{3}\n\n'.format(full_filename, full_filepath,
                                                  title, description))
-        yield new_code_cell('#Uncomment and run these two lines to enable rendering in JupyterLab/nteract\n'
+        yield new_code_cell('# Uncomment and run these two lines to enable rendering in JupyterLab/nteract\n'
                             '# from altair import enable_mime_rendering\n'
                             '# enable_mime_rendering()')
         yield new_markdown_cell('## Load Dataset\n'
@@ -88,8 +88,9 @@ def create_example_notebook(filename, spec, notebook_directory,
                             'data.head()'.format(dataset))
 
         yield new_markdown_cell('## Define Altair Specification')
-        yield new_code_cell('from altair import *  # Import the altair API\n\n'
-                            'chart = {0}'.format(chart.to_altair(data='data')))
+        yield new_code_cell(''.join(['from altair import *  # Import the altair API\n\n',
+                            'chart = {0}\n\n'.format(chart.to_altair(data='data')),
+                            'chart.max_rows = len(data)']))
         yield new_markdown_cell('IPython rich display will invoke Vega-Lite:')
         yield new_code_cell('chart')
 
