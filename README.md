@@ -10,16 +10,17 @@ repo.
 
 ## Example
 
-Here is an example of an Altair visualization:
+Here is an example using Altair to quickly visualize and display a dataset with the native Vega-Lite renderer in the JupyterLab:
 
 ```python
 import altair as alt
 
-# Uncomment/run this line to enable Altair in JupyterLab/nteract:
-# alt.enable_mime_rendering()
+# to use with Jupyter notebook (not JupyterLab) run the following
+# alt.renderers.enable('notebook')
 
-# load data as a pandas DataFrame
-cars = alt.load_dataset('cars')
+# load a simple dataset as a pandas DataFrame
+from vega_datasets import data
+cars = data.cars()
 
 alt.Chart(cars).mark_point().encode(
     x='Horsepower',
