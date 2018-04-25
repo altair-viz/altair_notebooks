@@ -47,7 +47,7 @@ def create_example_notebook(example, notebook_directory,
                             index_dict=None):
     filename = example['filename']
     name = example['name']
-    outputfile = os.path.join('..','..', name + '.ipynb')
+    outputfile = name + '.ipynb'
     outputfile_full = os.path.join(notebook_directory, outputfile)
 
     if verbose:
