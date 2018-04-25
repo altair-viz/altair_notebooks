@@ -1,5 +1,10 @@
-traitlets>=4.3.1
-ipython
+entrypoints
+jsonschema
+numpy
 pandas
-vega==0.4.4
-altair==1.2.1
+six
+toolz
+typing
+ipython
+altair==2.0.0rc2
+jupyterlab>0.32

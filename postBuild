@@ -1,6 +1,2 @@
 #!/bin/bash
 
-conda update -c conda-forge jupyterlab
-
-jupyter nbextension install --sys-prefix --py vega3
-jupyter nbextension enable --sys-prefix --py vega
