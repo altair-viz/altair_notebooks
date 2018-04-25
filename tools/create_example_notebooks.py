@@ -11,13 +11,14 @@ from nbconvert.preprocessors import ExecutePreprocessor
 from jupyter_client.kernelspec import KernelSpecManager
 
 from altair import *
-from altair.examples import iter_examples
-
+from altair.vegalite.v2.examples import iter_examples
 
 INDEX_TEXT = """# Auto-Generated Altair Examples
 
-All the following notebooks are auto-generated from the example specifications
-in the [Vega-Lite](http://vega.github.io/vega-lite/) project.
+All the following notebooks are auto-generated from the Python examples
+in the Altair source code repository here:
+
+https://github.com/altair-viz/altair/tree/master/altair/vegalite/v2/examples
 """
 
 
@@ -43,60 +44,50 @@ def write_notebook(cells, outputfile, execute=True, kernel='python3'):
     nbformat.write(notebook, outputfile)
 
 
-def create_example_notebook(filename, spec, notebook_directory,
+def create_example_notebook(example, notebook_directory,
                             execute=True, kernel='python3', verbose=True,
                             index_dict=None):
-    if 'url' not in spec['data']:
-        return
-    if filename.endswith('.vl.json'):
-        filestem = filename[:-8]
-    else:
-        filestem = os.path.splitext(filename)[0]
-    full_filename = os.path.join('altair', 'examples', 'json', filename)
-    full_filepath = os.path.join('..', '..', full_filename)
-    outputfile = filestem + '.ipynb'
+    filename = example['filename']
+    name = example['name']
+    outputfile = name + '.ipynb'
     outputfile_full = os.path.join(notebook_directory, outputfile)
 
     if verbose:
         print(filename)
         print(" -> {0}".format(outputfile_full))
 
-    title = filestem.replace('_', ' ').title()
-    description = spec.pop('description', '--')
-    dataset = os.path.splitext(os.path.basename(spec['data']['url']))[0]
+    title = name.replace('_', ' ').title()
 
-    index_entry = "[{0}]({1}): *{2}*".format(title, outputfile, description)
+    index_entry = "[{0}]({1})".format(title, outputfile)
     if index_dict is not None:
         index_dict[filename] = index_entry
 
-    chart = Chart.from_dict(spec)
+    with open(filename) as f:
+        lines = f.readlines()
+
+    # Parse the source code into a markdown and python block
+    comment = False
+    source = False
+    comment_block = []
+    source_block = []
+    for line in lines:
+        if line.startswith('"""') and not comment:
+            comment = True
+            continue
+        elif line.startswith('"""') and comment:
+            comment = False
+            source = True
+            continue
+        if comment:
+            comment_block.append(line)
+        if source:
+            source_block.append(line)
+            if line.startswith('import altair'):
+                source_block.append("alt.data_transformers.enable('json')\n")
 
     def cells():
-        yield new_markdown_cell('<small>*Notebook auto-generated from '
-                                '[``{0}``]({1})*</small>\n\n'
-                                '# Altair Example: {2}\n\n'
-                                '{3}\n\n'.format(full_filename, full_filepath,
-                                                 title, description))
-        yield new_code_cell('# Uncomment and run these two lines to enable rendering in JupyterLab/nteract\n'
-                            '# from altair import enable_mime_rendering\n'
-                            '# enable_mime_rendering()')
-        yield new_markdown_cell('## Load Dataset\n'
-                                 'The data comes in the form of a Pandas '
-                                 'Dataframe:')
-        yield new_code_cell('from altair import load_dataset\n'
-                            'data = load_dataset("{0}")\n'
-                            'data.head()'.format(dataset))
-
-        yield new_markdown_cell('## Define Altair Specification')
-        yield new_code_cell(''.join(['from altair import *  # Import the altair API\n\n',
-                            'chart = {0}\n\n'.format(chart.to_altair(data='data')),
-                            'chart.max_rows = len(data)  # Altair 1.2.1 has a max_rows of 500 by default']))
-        yield new_markdown_cell('IPython rich display will invoke Vega-Lite:')
-        yield new_code_cell('chart')
-
-        yield new_markdown_cell('## Output Vega-Lite Specification')
-        yield new_markdown_cell('Generate JSON dict, leaving data out:')
-        yield new_code_cell('chart.to_dict(data=False)')
+        yield new_markdown_cell(''.join(comment_block))
+        yield new_code_cell(''.join(source_block))
 
     write_notebook(list(cells()), outputfile_full,
                    execute=execute, kernel=kernel)
@@ -109,7 +100,7 @@ def write_index(notebook_directory, index_dict, kernel='python3'):
     cells = [new_markdown_cell(INDEX_TEXT),
              new_markdown_cell(index_listing)]
 
-    write_notebook(cells, os.path.join(notebook_directory, 'Index.ipynb'),
+    write_notebook(cells, os.path.join(notebook_directory, '00-Index.ipynb'),
                    execute=False, kernel=kernel)
 
 
@@ -127,11 +118,11 @@ def write_all_examples(execute=True):
             os.remove(os.path.join(notebook_directory, example))
 
     index_dict = {}
-    for filename, spec in iter_examples():
-        create_example_notebook(filename, spec, notebook_directory,
+    for example in iter_examples():
+        create_example_notebook(example, notebook_directory,
                                 execute=execute, index_dict=index_dict)
 
-    print("writing Index.ipynb")
+    print("writing 00-Index.ipynb")
     write_index(notebook_directory, index_dict)
 
 
