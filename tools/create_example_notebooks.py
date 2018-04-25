@@ -21,10 +21,6 @@ in the Altair source code repository here:
 https://github.com/altair-viz/altair/tree/master/altair/vegalite/v2/examples
 """
 
-IMPORTS = """import altair as alt
-alt.renderer.set('json')
-"""
-
 
 def get_kernelspec(name):
     ksm = KernelSpecManager()
@@ -69,6 +65,7 @@ def create_example_notebook(example, notebook_directory,
     with open(filename) as f:
         lines = f.readlines()
 
+    # Parse the source code into a markdown and python block
     comment = False
     source = False
     comment_block = []
@@ -88,8 +85,6 @@ def create_example_notebook(example, notebook_directory,
             if line.startswith('import altair'):
                 source_block.append("alt.data_transformers.enable('json')\n")
 
-    print(''.join(comment_block))
-
     def cells():
         yield new_markdown_cell(''.join(comment_block))
         yield new_code_cell(''.join(source_block))
@@ -105,7 +100,7 @@ def write_index(notebook_directory, index_dict, kernel='python3'):
     cells = [new_markdown_cell(INDEX_TEXT),
              new_markdown_cell(index_listing)]
 
-    write_notebook(cells, os.path.join(notebook_directory, 'Index.ipynb'),
+    write_notebook(cells, os.path.join(notebook_directory, '00-Index.ipynb'),
                    execute=False, kernel=kernel)
 
 
@@ -127,7 +122,7 @@ def write_all_examples(execute=True):
         create_example_notebook(example, notebook_directory,
                                 execute=execute, index_dict=index_dict)
 
-    print("writing Index.ipynb")
+    print("writing 00-Index.ipynb")
     write_index(notebook_directory, index_dict)
 
 
