@@ -15,8 +15,14 @@ from altair.vegalite.v2.examples import iter_examples
 
 INDEX_TEXT = """# Auto-Generated Altair Examples
 
-All the following notebooks are auto-generated from the example specifications
-in the [Vega-Lite](http://vega.github.io/vega-lite/) project.
+All the following notebooks are auto-generated from the Python examples
+in the Altair source code repository here:
+
+https://github.com/altair-viz/altair/tree/master/altair/vegalite/v2/examples
+"""
+
+IMPORTS = """import altair as alt
+alt.renderer.set('json')
 """
 
 
@@ -56,15 +62,37 @@ def create_example_notebook(example, notebook_directory,
 
     title = name.replace('_', ' ').title()
 
-    # index_entry = "[{0}]({1}): *{2}*".format(title, outputfile, description)
-    # if index_dict is not None:
-    #     index_dict[filename] = index_entry
+    index_entry = "[{0}]({1})".format(title, outputfile)
+    if index_dict is not None:
+        index_dict[filename] = index_entry
 
     with open(filename) as f:
-        source_code = f.readlines()
+        lines = f.readlines()
+
+    comment = False
+    source = False
+    comment_block = []
+    source_block = []
+    for line in lines:
+        if line.startswith('"""') and not comment:
+            comment = True
+            continue
+        elif line.startswith('"""') and comment:
+            comment = False
+            source = True
+            continue
+        if comment:
+            comment_block.append(line)
+        if source:
+            source_block.append(line)
+            if line.startswith('import altair'):
+                source_block.append("alt.data_transformers.enable('json')\n")
+
+    print(''.join(comment_block))
 
     def cells():
-        yield new_code_cell(source_code)
+        yield new_markdown_cell(''.join(comment_block))
+        yield new_code_cell(''.join(source_block))
 
     write_notebook(list(cells()), outputfile_full,
                    execute=execute, kernel=kernel)
