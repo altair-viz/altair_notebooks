@@ -7,4 +7,4 @@ toolz
 typing
 ipython
 altair==2.0.0rc2
-jupyterlab>0.32
+jupyterlab>=0.32.0
