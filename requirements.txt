@@ -6,5 +6,6 @@ six
 toolz
 typing
 ipython
+matplotlib
 altair==2.0.0rc2
 jupyterlab>=0.32.0
