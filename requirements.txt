@@ -7,4 +7,5 @@ toolz
 typing
 ipython
 altair==2.1.0
+vega_datasets
 jupyterlab>=0.32.0
