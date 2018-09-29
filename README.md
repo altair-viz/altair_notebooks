@@ -4,11 +4,11 @@ This repository contains tutorial and example Jupyter Notebooks for Altair.
 
 [Examples Index](notebooks/Index.ipynb)
 
-You can browse static version of these notebooks here on GitHub, or click the `binder`
-badge below to launch of live Jupyter Notebook server with the notebooks in this 
-repo.
+You can browse static version of these notebooks here on GitHub, or click one of
+the badges below to run these notebooks on either [Binder](https://mybinder.org/) or [Colab](http://colab.research.google.com).
 
 [![Binder](https://beta.mybinder.org/badge.svg)](https://mybinder.org/v2/gh/altair-viz/altair_notebooks/master?urlpath=%2Flab)
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/altair-viz/altair_notebooks/blob/master/notebooks/Index.ipynb)
 
 ## Example
 
