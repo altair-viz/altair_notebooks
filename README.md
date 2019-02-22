@@ -7,7 +7,7 @@ This repository contains tutorial and example Jupyter Notebooks for Altair.
 You can browse static version of these notebooks here on GitHub, or click one of
 the badges below to run these notebooks on either [Binder](https://mybinder.org/) or [Colab](http://colab.research.google.com).
 
-[![Binder](https://beta.mybinder.org/badge.svg)](https://mybinder.org/v2/gh/altair-viz/altair_notebooks/master?urlpath=%2Flab)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/altair-viz/altair_notebooks/master?urlpath=lab/tree/notebooks/Index.ipynb)
 [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/altair-viz/altair_notebooks/blob/master/notebooks/Index.ipynb)
 
 ## Example
