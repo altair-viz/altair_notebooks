@@ -9,6 +9,7 @@ the badges below to run these notebooks on either [Binder](https://mybinder.org/
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/altair-viz/altair_notebooks/master?urlpath=lab/tree/notebooks/Index.ipynb)
 [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/altair-viz/altair_notebooks/blob/master/notebooks/Index.ipynb)
+[![Deepnote](https://deepnote.com/buttons/launch-in-deepnote-small.svg)](http://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Faltair-viz%2Faltair_notebooks%2Fblob%2Fmaster%2Fnotebooks%2FIndex.ipynb)
 
 ## Example
 
